@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#101114"><title>PIXEL — Studio photo mobile</title>
+<style>
+:root{--bg:#101114;--panel:#191a20;--panel2:#22232b;--line:#30313a;--txt:#f5f5f7;--muted:#a5a6b0;--accent:#b7a1ff}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--txt);font:14px system-ui,-apple-system,sans-serif}button,input,select{font:inherit}button{cursor:pointer;color:inherit}.app{max-width:760px;margin:auto;min-height:100dvh;padding-bottom:24px}
+header{height:62px;display:flex;align-items:center;justify-content:space-between;padding:0 16px;border-bottom:1px solid var(--line);position:sticky;top:0;background:#101114f2;backdrop-filter:blur(12px);z-index:5}
+.brand{font-weight:900;letter-spacing:.14em;font-size:18px}.brand span{color:var(--accent)}.header-actions{display:flex;gap:8px}.btn{border:1px solid var(--line);background:var(--panel2);border-radius:12px;padding:10px 13px;font-weight:650}.btn.primary{background:var(--accent);color:#171322;border-color:transparent}.btn:disabled{opacity:.35}
+main{padding:14px}.workspace{background:#090a0c;border:1px solid var(--line);border-radius:18px;overflow:hidden}.canvas-wrap{height:min(56vh,520px);min-height:260px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;background:radial-gradient(ellipse,#252630,#101114)}canvas{display:block;max-width:100%;max-height:100%;object-fit:contain;touch-action:none}.empty{position:absolute;inset:0;display:grid;place-content:center;text-align:center;padding:24px;color:var(--muted)}.empty .symbol{font-size:48px;color:var(--accent)}.empty strong{color:var(--txt);font-size:17px}.empty p{max-width:260px;line-height:1.5}
+.quick{display:flex;gap:8px;overflow:auto;padding:11px;border-top:1px solid var(--line)}.quick button{white-space:nowrap}
+.tabs{display:flex;gap:6px;overflow:auto;margin:14px 0}.tab{flex:1;min-width:75px;padding:11px 8px;border:1px solid var(--line);border-radius:12px;background:var(--panel);color:var(--muted)}.tab.active{background:#302b43;color:#fff;border-color:var(--accent)}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:15px;margin-bottom:12px}.panel h2{font-size:16px;margin:0 0 14px}.toolrow{display:flex;align-items:center;gap:12px;margin:13px 0}.toolrow label{width:92px;color:var(--muted);font-size:12px}.toolrow input[type=range]{flex:1;min-width:0;accent-color:var(--accent)}.value{width:42px;text-align:right;font-variant-numeric:tabular-nums;color:var(--muted);font-size:12px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.preset{border:1px solid var(--line);background:var(--panel2);border-radius:12px;padding:12px 5px;font-size:12px}.preset:active{border-color:var(--accent)}
+.field{width:100%;background:#101114;color:var(--txt);border:1px solid var(--line);border-radius:10px;padding:11px;margin:5px 0 10px}.two{display:grid;grid-template-columns:1fr 1fr;gap:8px}.hint{color:var(--muted);font-size:11px;line-height:1.5}.hidden{display:none!important}
+.bottom{display:flex;gap:8px}.bottom>*{flex:1}
+@media(min-width:650px){main{padding:20px}.canvas-wrap{height:480px}.tabs{max-width:560px;margin-left:auto;margin-right:auto}.panel{max-width:680px;margin-left:auto;margin-right:auto}}
+</style></head>
+<body><div class="app">
+<header><div class="brand">PIXEL<span>✦</span></div><div class="header-actions"><button class="btn" id="undo" disabled>↶</button><button class="btn" id="redo" disabled>↷</button><button class="btn primary" id="exportTop">Exporter</button></div></header>
+<main>
+<div class="workspace"><div class="canvas-wrap" id="wrap"><canvas id="canvas"></canvas><div class="empty" id="empty"><div class="symbol">✦</div><strong>Votre studio photo</strong><p>Importez une image pour commencer à retoucher, ajouter du texte et créer votre rendu.</p><button class="btn primary" id="start">＋ Importer une photo</button></div></div>
+<div class="quick"><button class="btn" id="openFile">＋ Importer</button><button class="btn" id="fit">Ajuster</button><button class="btn" id="reset">Réinitialiser</button><button class="btn" id="compare">Maintenir pour comparer</button></div></div>
+<input id="file" type="file" accept="image/*" hidden>
+<div class="tabs" role="tablist"><button class="tab active" data-tab="adjust">Réglages</button><button class="tab" data-tab="filters">Filtres</button><button class="tab" data-tab="crop">Recadrer</button><button class="tab" data-tab="text">Texte</button><button class="tab" data-tab="draw">Dessin</button></div>
+<section id="adjust" class="panel">
+<h2>Réglages essentiels</h2>
+<div class="toolrow"><label>Exposition</label><input data-key="brightness" type="range" min="50" max="160" value="100"><span class="value">100%</span></div>
+<div class="toolrow"><label>Contraste</label><input data-key="contrast" type="range" min="50" max="180" value="100"><span class="value">100%</span></div>
+<div class="toolrow"><label>Saturation</label><input data-key="saturate" type="range" min="0" max="200" value="100"><span class="value">100%</span></div>
+<div class="toolrow"><label>Chaleur</label><input data-key="warmth" type="range" min="-50" max="50" value="0"><span class="value">0</span></div>
+<div class="toolrow"><label>Flou</label><input data-key="blur" type="range" min="0" max="8" value="0"><span class="value">0</span></div>
+</section>
+<section id="filters" class="panel hidden"><h2>Filtres rapides</h2><div class="grid">
+<button class="preset" data-filter="none">Original</button><button class="preset" data-filter="mono">Noir & blanc</button><button class="preset" data-filter="warm">Chaud</button><button class="preset" data-filter="vivid">Vif</button><button class="preset" data-filter="soft">Doux</button><button class="preset" data-filter="dramatic">Dramatique</button>
+</div></section>
+<section id="crop" class="panel hidden"><h2>Rotation & miroir</h2><div class="grid"><button class="preset" id="rotL">↶ 90°</button><button class="preset" id="rotR">↷ 90°</button><button class="preset" id="flip">⇋ Miroir</button></div><p class="hint">La rotation et le miroir s’appliquent à l’image entière. Pour cadrer, utilisez les poignées de recadrage de votre application photo après export.</p></section>
+<section id="text" class="panel hidden"><h2>Ajouter un texte</h2><input class="field" id="textValue" placeholder="Écrire votre texte…"><div class="two"><select class="field" id="font"><option value="Arial">Moderne</option><option value="Georgia">Éditorial</option><option value="Impact">Impact</option><option value="cursive">Manuscrit</option></select><input class="field" id="textColor" type="color" value="#ffffff" aria-label="Couleur du texte"></div><div class="toolrow"><label>Taille</label><input id="textSize" type="range" min="12" max="100" value="36"><span class="value" id="textSizeVal">36</span></div><div class="two"><button class="btn primary" id="addText">Ajouter au centre</button><button class="btn" id="clearText">Effacer les textes</button></div><p class="hint">Le texte ajouté peut être déplacé directement sur l’image en le faisant glisser.</p></section>
+<section id="draw" class="panel hidden"><h2>Dessin libre</h2><div class="two"><label class="hint">Couleur<input class="field" id="penColor" type="color" value="#b7a1ff"></label><label class="hint">Épaisseur<input class="field" id="penWidth" type="range" min="2" max="30" value="6"></label></div><button class="btn" id="clearDraw">Effacer le dessin</button><p class="hint">Dessinez avec le doigt sur la photo. Le dessin sera inclus dans l’export.</p></section>
+<div class="panel"><div class="bottom"><button class="btn" id="download">Télécharger l’image</button><button class="btn primary" id="share">Partager</button></div><p class="hint">Tout se fait localement dans votre navigateur. L’export crée une image PNG.</p></div>
+</main></div>
+<script>
+const $=id=>document.getElementById(id),canvas=$('canvas'),ctx=canvas.getContext('2d');
+let img=null,base=null,rotation=0,mirror=false,filter='none',texts=[],drawings=[],history=[],future=[],drawing=false,dragText=-1,compare=false;
+const defaults={brightness:100,contrast:100,saturate:100,warmth:0,blur:0},adjust={...defaults};
+function snapshot(){if(!img)return;history.push(JSON.stringify({adjust,rotation,mirror,filter,texts,drawings}));if(history.length>30)history.shift();future=[];buttons();}
+function buttons(){$('undo').disabled=!history.length;$('redo').disabled=!future.length}
+function restore(s){let o=JSON.parse(s);Object.assign(adjust,o.adjust);rotation=o.rotation;mirror=o.mirror;filter=o.filter;texts=o.texts;drawings=o.drawings;syncControls();render()}
+function syncControls(){document.querySelectorAll('[data-key]').forEach(el=>{el.value=adjust[el.dataset.key];el.nextElementSibling.textContent=el.value+(el.dataset.key==='warmth'?'':'%')})}
+function loadImage(file){if(!file)return;let url=URL.createObjectURL(file),im=new Image();im.onload=()=>{img=im;base={w:im.naturalWidth,h:im.naturalHeight};rotation=0;mirror=false;filter='none';texts=[];drawings=[];Object.assign(adjust,defaults);history=[];future=[];$('empty').classList.add('hidden');syncControls();render();snapshot();URL.revokeObjectURL(url)};im.src=url}
+function dimensions(){let w=base.w,h=base.h;return Math.abs(rotation)%180===90?{w:h,h:w}:{w,h}}
+function render(){if(!img)return;let d=dimensions();canvas.width=d.w;canvas.height=d.h;let c=ctx;c.save();c.clearRect(0,0,d.w,d.h);c.translate(d.w/2,d.h/2);c.rotate(rotation*Math.PI/180);c.scale(mirror?-1:1,1);
+let f=`brightness(${compare?100:adjust.brightness}%) contrast(${compare?100:adjust.contrast}%) saturate(${compare?100:adjust.saturate}%) blur(${compare?0:adjust.blur}px)`;
+if(!compare&&filter==='mono')f+=' grayscale(1)';
+if(!compare&&filter==='warm')f+=' sepia(.35)';
+if(!compare&&filter==='vivid')f+=' saturate(1.4) contrast(1.08)';
+if(!compare&&filter==='soft')f+=' brightness(1.06) saturate(.85)';
+if(!compare&&filter==='dramatic')f+=' contrast(1.35) saturate(.8)';
+c.filter=f;c.drawImage(img,-base.w/2,-base.h/2,base.w,base.h);c.filter='none';c.restore();
+if(!compare&&adjust.warmth){c.save();c.globalAlpha=Math.abs(adjust.warmth)/350;c.fillStyle=adjust.warmth>0?'#ff9b45':'#65aaff';c.fillRect(0,0,d.w,d.h);c.restore()}
+if(!compare){drawings.forEach(path=>{c.save();c.strokeStyle=path.color;c.lineWidth=path.width;c.lineCap='round';c.lineJoin='round';c.beginPath();path.points.forEach((p,i)=>i?c.lineTo(p.x*d.w,p.y*d.h):c.moveTo(p.x*d.w,p.y*d.h));c.stroke();c.restore()});
+texts.forEach(t=>{c.save();c.font=`bold ${t.size}px ${t.font}`;c.textAlign='center';c.textBaseline='middle';c.lineWidth=Math.max(2,t.size/12);c.strokeStyle='rgba(0,0,0,.55)';c.strokeText(t.text,t.x*d.w,t.y*d.h);c.fillStyle=t.color;c.fillText(t.text,t.x*d.w,t.y*d.h);c.restore()})}
+}
+$('file').onchange=e=>loadImage(e.target.files[0]);$('openFile').onclick=$('start').onclick=()=>$('file').click();
+document.querySelectorAll('[data-key]').forEach(el=>el.addEventListener('input',()=>{adjust[el.dataset.key]=+el.value;el.nextElementSibling.textContent=el.value+(el.dataset.key==='warmth'?'':'%');render()}));
+document.querySelectorAll('[data-key]').forEach(el=>el.addEventListener('change',snapshot));
+document.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>{document.querySelectorAll('[data-tab]').forEach(x=>x.classList.toggle('active',x===b));['adjust','filters','crop','text','draw'].forEach(id=>$(id).classList.toggle('hidden',id!==b.dataset.tab))});
+document.querySelectorAll('[data-filter]').forEach(b=>b.onclick=()=>{snapshot();filter=b.dataset.filter;render()});
+$('rotL').onclick=()=>{snapshot();rotation=(rotation+270)%360;render()};$('rotR').onclick=()=>{snapshot();rotation=(rotation+90)%360;render()};$('flip').onclick=()=>{snapshot();mirror=!mirror;render()};
+$('textSize').oninput=()=> $('textSizeVal').textContent=$('textSize').value;
+$('addText').onclick=()=>{let text=$('textValue').value.trim();if(!text)return alert('Écrivez un texte.');snapshot();texts.push({text,x:.5,y:.5,size:+$('textSize').value,font:$('font').value,color:$('textColor').value});render()};
+$('clearText').onclick=()=>{snapshot();texts=[];render()};
+$('clearDraw').onclick=()=>{snapshot();drawings=[];render()};
+function point(e){let r=canvas.getBoundingClientRect();return{x:(e.clientX-r.left)/r.width,y:(e.clientY-r.top)/r.height}}
+canvas.addEventListener('pointerdown',e=>{if(!img)return;let p=point(e);if(document.querySelector('[data-tab].active')?.dataset.tab==='draw'){snapshot();drawing=true;drawings.push({color:$('penColor').value,width:+$('penWidth').value,points:[p]});canvas.setPointerCapture(e.pointerId);render();return}
+let idx=texts.findIndex(t=>Math.abs(t.x-p.x)<.2&&Math.abs(t.y-p.y)<.12);if(idx>=0){snapshot();dragText=idx;canvas.setPointerCapture(e.pointerId)}});
+canvas.addEventListener('pointermove',e=>{if(drawing&&drawings.length){drawings.at(-1).points.push(point(e));render()}else if(dragText>=0){let p=point(e);texts[dragText].x=p.x;texts[dragText].y=p.y;render()}});
+function end(){drawing=false;dragText=-1}canvas.addEventListener('pointerup',end);canvas.addEventListener('pointercancel',end);
+$('undo').onclick=()=>{if(!history.length)return;future.push(JSON.stringify({adjust,rotation,mirror,filter,texts,drawings}));restore(history.pop());buttons()};
+$('redo').onclick=()=>{if(!future.length)return;history.push(JSON.stringify({adjust,rotation,mirror,filter,texts,drawings}));restore(future.pop());buttons()};
+$('reset').onclick=()=>{if(!img)return;snapshot();Object.assign(adjust,defaults);rotation=0;mirror=false;filter='none';texts=[];drawings=[];syncControls();render()};
+$('fit').onclick=()=>{if(!img)return;canvas.style.width='100%';canvas.style.height='auto';render()};
+$('compare').onpointerdown=()=>{compare=true;render()};['pointerup','pointerleave','pointercancel'].forEach(ev=>$('compare').addEventListener(ev,()=>{compare=false;render()}));
+function exportBlob(){return new Promise(resolve=>canvas.toBlob(resolve,'image/png'))}
+$('download').onclick=async()=>{if(!img)return alert('Importez une photo.');let b=await exportBlob();let a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='pixel-retouche.png';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1500)};
+$('exportTop').onclick=$('download').onclick;
+$('share').onclick=async()=>{if(!img)return alert('Importez une photo.');let b=await exportBlob(),f=new File([b],'pixel-retouche.png',{type:'image/png'});if(navigator.share&&navigator.canShare?.({files:[f]})){try{await navigator.share({files:[f],title:'Ma création PIXEL'})}catch(e){}}else{$('download').click();alert('Le partage direct n’est pas disponible ici : l’image a été téléchargée.')}}
+</script></body></html>
