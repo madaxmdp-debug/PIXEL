@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#172554">
+<title>GEII — Révisions</title>
+<style>
+:root{--navy:#172554;--blue:#2563eb;--ink:#172033;--muted:#667085;--bg:#f4f6fa;--card:#fff;--line:#e5e9f1;--soft:#eef3ff}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+header{background:var(--navy);color:white;padding:22px 18px 18px;position:sticky;top:0;z-index:5;box-shadow:0 3px 16px #101b3a22}
+.head{max-width:1050px;margin:auto;display:flex;gap:12px;align-items:center}.logo{width:44px;height:44px;border-radius:13px;background:#ffffff1c;display:grid;place-items:center;font-size:25px}.brand{font-weight:800;font-size:20px;line-height:1.2}.sub{font-size:12px;color:#cbd5e1}
+main{max-width:1050px;margin:22px auto;padding:0 15px 95px}.searchbox{display:flex;gap:9px;margin:0 0 16px}.searchbox input{flex:1;min-width:0;padding:13px 15px;border:1px solid var(--line);border-radius:14px;font:inherit;background:white}
+.tabs{display:flex;gap:8px;overflow:auto;padding:0 0 12px}.tab{border:1px solid var(--line);background:white;padding:10px 15px;border-radius:999px;font-weight:700;white-space:nowrap;color:var(--ink)}.tab.active{background:var(--navy);color:white;border-color:var(--navy)}
+.hero{background:linear-gradient(125deg,#172554,#264b91);color:white;border-radius:20px;padding:22px;margin-bottom:18px}.eyebrow{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#cbd5e1;font-weight:800}.hero h1{font-size:25px;line-height:1.2;margin:7px 0}.hero p{margin:0;color:#e0e7ff}
+.section-title{font-size:20px;margin:22px 0 10px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}.card{background:var(--card);border:1px solid var(--line);border-radius:17px;padding:16px;box-shadow:0 4px 14px #14213b08}.card h3{margin:4px 0 6px;font-size:17px}.card p{margin:0;color:var(--muted);font-size:14px}.tag{display:inline-block;background:var(--soft);color:#234a9a;border-radius:7px;padding:3px 8px;font-size:11px;font-weight:800}.btn{border:0;border-radius:11px;padding:10px 13px;background:var(--blue);color:white;font-weight:750;font:inherit;cursor:pointer}.btn.secondary{background:#edf1f7;color:#24324b}.card .btn{margin-top:13px}
+.panel{background:white;border:1px solid var(--line);border-radius:18px;padding:20px;margin-top:12px}.panel h2{margin:0 0 5px;line-height:1.25}.panel h3{margin:22px 0 7px}.panel p{margin:8px 0}.formula{background:#f0f5ff;border-left:4px solid var(--blue);padding:12px 14px;border-radius:8px;font-weight:700;overflow:auto}.note{background:#fff8e7;border:1px solid #f5dfaa;padding:12px;border-radius:10px}.diagram{background:#fbfcff;border:1px solid var(--line);border-radius:12px;padding:12px;margin:12px 0;text-align:center}.diagram svg{width:100%;max-width:620px;height:auto;display:block;margin:auto}.diagram text{font-family:system-ui,sans-serif}.diagram .wire{stroke:#334155;stroke-width:2.5;fill:none;stroke-linecap:round;stroke-linejoin:round}.diagram .comp{stroke:#2563eb;stroke-width:2.5;fill:#eef3ff}.diagram .lbl{fill:#172554;font-size:13px;font-weight:650}.diagram .smalllbl{fill:#475569;font-size:11px}.exercise{border:1px solid var(--line);border-radius:13px;padding:15px;margin:12px 0}.solution{display:none;background:#f3f7ff;border-radius:10px;padding:12px;margin-top:10px}.solution.show{display:block}.bottom{position:fixed;bottom:0;left:0;right:0;background:#ffffffef;backdrop-filter:blur(12px);border-top:1px solid var(--line);display:flex;justify-content:center;gap:7px;padding:9px;z-index:4}.bottom button{flex:1;max-width:230px;background:transparent;border:0;padding:8px 5px;border-radius:10px;color:#526078;font-weight:700}.bottom button.active{background:var(--soft);color:var(--navy)}
+small,.muted{color:var(--muted)}.empty{padding:24px;text-align:center;color:var(--muted)}ul{padding-left:22px}li{margin:5px 0}
+@media(min-width:720px){header{padding:24px}.hero{padding:28px}.hero h1{font-size:32px}.panel{padding:26px}}
+</style>
+</head>
+<body>
+<header><div class="head"><div class="logo">ϟ</div><div><div class="brand">GEII — Révisions</div><div class="sub">Électronique · Électrotechnique · Bases d’ingénieur</div></div></div></header>
+<main>
+<div class="searchbox"><input id="search" type="search" placeholder="Rechercher une notion, formule, chapitre…"><button class="btn" id="clear">Effacer</button></div>
+<nav class="tabs" id="yearTabs"><button class="tab active" data-year="all">Tout le programme</button><button class="tab" data-year="BUT 1">BUT 1</button><button class="tab" data-year="BUT 2">BUT 2</button><button class="tab" data-year="BUT 3">BUT 3</button></nav>
+<section class="hero"><div class="eyebrow">Bibliothèque de révision</div><h1>Reprendre les fondamentaux, consolider les méthodes.</h1><p>Des cours synthétiques, des formules expliquées et des exercices corrigés. Sélectionne un chapitre ou lance une recherche.</p></section>
+<div class="tabs" id="mainTabs"><button class="tab active" data-view="fiches">Fiches de révision</button><button class="tab" data-view="exercices">Exercices corrigés</button></div>
+<div id="content"></div>
+</main>
+<nav class="bottom"><button class="active" data-view="fiches">▤ Fiches</button><button data-view="exercices">✎ Exercices</button><button id="home">⌂ Accueil</button></nav>
+<script>
+const chapters=[
+{year:"BUT 1",id:"kirchhoff",title:"Lois de Kirchhoff et circuits résistifs",desc:"Nœuds, mailles, diviseurs, méthodes nodale et des mailles.",tags:"kirchhoff noeud maille ohm résistance courant tension",sections:[
+["Objectifs","Analyser un circuit continu, choisir des références cohérentes, calculer tensions et courants puis vérifier les résultats."],
+["Grandeurs fondamentales",`La charge électrique s'exprime en coulombs (C). Le courant est le débit de charge : <div class="formula">i(t) = dq(t)/dt</div>La tension entre A et B est l'énergie transférée par unité de charge : <div class="formula">uAB = VA − VB</div>Pour un résistor idéal : <div class="formula">u = R i &nbsp; ; &nbsp; P = u i = R i² = u²/R</div>`],
+["Loi des nœuds (KCL)","La somme algébrique des courants en un nœud est nulle. Avec les courants entrants positifs et sortants négatifs : Σi = 0. Cette loi traduit la conservation de la charge."],
+["Loi des mailles (KVL)","Dans toute maille fermée, la somme algébrique des tensions est nulle : Σu = 0. Le signe dépend du sens de parcours et de la polarité traversée."],
+["Méthode systématique","1. Repérer les nœuds et choisir une masse. 2. Nommer les tensions et courants. 3. Écrire Ohm pour chaque résistance. 4. Écrire KCL ou KVL indépendantes. 5. Résoudre. 6. Vérifier unités, signes et bilan de puissance."],
+["Associations de résistances",`En série : <div class="formula">Req = R1 + R2 + …</div>En parallèle : <div class="formula">1/Req = 1/R1 + 1/R2 + …</div>Pour deux résistances en parallèle : <div class="formula">Req = R1R2/(R1+R2)</div>`],
+["Diviseurs",`Diviseur de tension (R1 et R2 en série, sortie aux bornes de R2) : <div class="formula">Us = Ue · R2/(R1+R2)</div>Diviseur de courant pour deux branches parallèles : <div class="formula">I1 = It · R2/(R1+R2)</div>Le courant se partage inversement aux résistances.`],
+["Conventions et puissance","Convention récepteur : le courant entre par la borne marquée + ; p = ui > 0 signifie que le dipôle absorbe de l’énergie. Convention générateur : le courant sort de la borne + ; une puissance fournie est alors positive selon la convention choisie. Toujours annoncer la convention avant de conclure."],
+["Exemple guidé",`Source idéale de 12 V alimentant R1=2 kΩ et R2=4 kΩ en série. Rtot=6 kΩ, donc I=12/6000=2 mA. Tension sur R2 : U2=I·R2=0,002×4000=8 V. Vérification : U1=4 V et U1+U2=12 V.`]
+],exercises:[
+{q:"Une source de 18 V alimente deux résistances en série : 3 kΩ et 6 kΩ. Calculer le courant et la tension sur 6 kΩ.",a:"Rtot=3+6=9 kΩ. I=18/9000=2 mA. U6k=I×6000=12 V. Vérification : les chutes valent 6 V et 12 V, leur somme fait 18 V."},
+{q:"Deux résistances de 4 kΩ et 12 kΩ sont en parallèle sous 12 V. Trouver Req et le courant total.",a:"Req=(4×12)/(4+12)=3 kΩ. It=12/3000=4 mA. Courants de branche : 3 mA dans 4 kΩ et 1 mA dans 12 kΩ ; somme =4 mA."},
+{q:"Au nœud, 7 mA et 2 mA entrent ; 4 mA et i sortent. Déterminer i.",a:"KCL : 7+2−4−i=0, donc i=5 mA sortant."}
+]},
+{year:"BUT 1",id:"thevenin",title:"Thévenin et Norton",desc:"Équivalents vus depuis deux bornes et charge.",tags:"thevenin norton source équivalent résistance",sections:[
+["Principe","Tout réseau linéaire vu de deux bornes peut être remplacé par une source de tension idéale Vth en série avec une résistance Rth, ou par une source de courant In en parallèle avec la même résistance."],
+["Déterminer Vth","Débrancher la charge et calculer la tension à vide entre les bornes : Vth=Và vide."],
+["Déterminer Rth","Annuler les sources indépendantes : source idéale de tension remplacée par un court-circuit ; source idéale de courant par un circuit ouvert. Calculer la résistance équivalente vue des bornes. Avec des sources dépendantes, les conserver et utiliser une source test."],
+["Conversion Thévenin-Norton",`<div class="formula">In = Vth/Rth &nbsp; ; &nbsp; Vth = In·Rth</div>La résistance est identique dans les deux modèles.`],
+["Exemple","Un réseau équivalent possède Vth=10 V et Rth=2 kΩ. Avec une charge RL=3 kΩ : I=10/(2k+3k)=2 mA ; UL=I·RL=6 V."]
+],exercises:[{q:"Vth=15 V, Rth=5 kΩ et RL=10 kΩ. Calculer le courant dans la charge.",a:"I=15/(5k+10k)=1 mA. La tension de charge vaut UL=1 mA×10 kΩ=10 V."}]},
+{year:"BUT 1",id:"millman",title:"Théorème de Millman",desc:"Calcul rapide d’une tension de nœud reliée à plusieurs branches.",tags:"millman noeud conductance",sections:[
+["Quand l’utiliser","Pour calculer la tension d’un nœud relié à une référence par plusieurs branches, chacune contenant une source de tension en série avec une résistance (ou une branche résistive seule)."],
+["Formule",`<div class="formula">V = [Σ(Ek/Rk)] / [Σ(1/Rk)]</div>Pour une branche sans source, prendre Ek=0. Les polarités des sources doivent être prises avec leur signe, selon la tension de nœud choisie.`],
+["Exemple détaillé","Trois branches : E1=12 V, R1=2 kΩ ; E2=6 V, R2=3 kΩ ; branche résistive R3=6 kΩ. V=(12/2k+6/3k+0/6k)/(1/2k+1/3k+1/6k)=(6+2)/(0,0005+0,000333…+0,000166…)=8/0,001=8 V."],
+["Vérification","Courants sortants : (8−12)/2k=−2 mA ; (8−6)/3k=0,667 mA ; 8/6k=1,333 mA. Somme =0 (à l’arrondi près)."]
+],exercises:[{q:"Branches : E1=10 V avec R1=2 kΩ ; E2=0 V avec R2=2 kΩ. Trouver V.",a:"V=(10/2k+0)/(1/2k+1/2k)=5 mA/1 mS=5 V."}]},
+{year:"BUT 2",id:"kennelly",title:"Transformations étoile-triangle (Kennelly)",desc:"Convertir un réseau Δ en Y ou Y en Δ.",tags:"kennelly étoile triangle delta star impédance",sections:[
+["Pourquoi ?","Un réseau de trois résistances (ou impédances) en triangle peut être difficile à réduire. La transformation en étoile, ou inversement, conserve le comportement vu depuis les trois bornes."],
+["Triangle vers étoile",`Pour un triangle de côtés Rab, Rbc, Rca, la résistance étoile au nœud A vaut : <div class="formula">RA = (Rab·Rca)/(Rab+Rbc+Rca)</div>De même RB=(Rab·Rbc)/ΣR et RC=(Rbc·Rca)/ΣR.`],
+["Étoile vers triangle",`Avec étoile RA, RB, RC, le côté triangle entre A et B vaut : <div class="formula">Rab = RA·RB + RB·RC + RC·RA, le tout divisé par RC</div>De façon analogue : Rbc=(RA·RB+RB·RC+RC·RA)/RA ; Rca=…/RB.`],
+["Cas équilibré","Si les trois côtés du triangle valent RΔ, chaque branche étoile vaut RY=RΔ/3, donc RΔ=3RY. Cette relation vient directement de RA=(RΔ×RΔ)/(3RΔ)=RΔ/3."],
+["Exemple","Triangle équilibré de 9 Ω : étoile équivalente avec 3 Ω sur chaque branche. Inversement, étoile équilibrée de 4 Ω : triangle équivalent de 12 Ω par côté."]
+],exercises:[{q:"Triangle : Rab=6 Ω, Rbc=3 Ω, Rca=9 Ω. Calculer RA.",a:"Somme=18 Ω. RA=(Rab×Rca)/somme=(6×9)/18=3 Ω."},{q:"Étoile équilibrée de 5 Ω par branche. Quelle valeur pour chaque côté du triangle équivalent ?",a:"RΔ=3RY=3×5=15 Ω par côté."}]},
+{year:"BUT 2",id:"complex",title:"Régime sinusoïdal et impédances",desc:"Phasors, réactances, déphasage et lois complexes.",tags:"impédance complexe condensateur bobine phase sinusoïdal",sections:[
+["Sinusoïde","Une grandeur sinusoïdale s’écrit x(t)=Xm cos(ωt+φ), avec ω=2πf et T=1/f. En notation efficace complexe, on représente amplitude et phase par un phasor."],
+["Impédances",`Résistance : <div class="formula">ZR=R</div>Bobine idéale : <div class="formula">ZL=jωL</div>Condensateur idéal : <div class="formula">ZC=1/(jωC)=−j/(ωC)</div>`],
+["Lois complexes","Les lois de Kirchhoff restent valables en notation complexe. On remplace les résistances par les impédances et on applique Ohm complexe : U=ZI."],
+["Associations","En série : Ztot=ΣZk. En parallèle : 1/Ztot=Σ(1/Zk). Attention : additionner séparément les modules n’est généralement pas correct ; additionner les nombres complexes."],
+["Exemple","À 50 Hz, une bobine de 0,1 H a XL=2π×50×0,1≈31,4 Ω. Un condensateur de 100 µF a XC=1/(2π×50×100µ)=31,8 Ω. Les réactances sont de signes opposés."]
+],exercises:[{q:"Calculer l’impédance d’un condensateur de 47 µF à 50 Hz.",a:"ZC=1/(jωC)=−j/(2π×50×47×10⁻⁶)≈−j67,7 Ω."}]},
+{year:"BUT 2",id:"puissance",title:"Puissances en alternatif",desc:"P, Q, S, facteur de puissance et compensation.",tags:"puissance active réactive apparente cos phi facteur puissance",sections:[
+["Définitions","Puissance active P (W) correspond à l’énergie moyenne transférée. Puissance réactive Q (var) décrit les échanges périodiques d’énergie des éléments réactifs. Puissance apparente S (VA) est le produit des valeurs efficaces."],
+["Formules monophasées",`<div class="formula">P=UI cosφ &nbsp; ; &nbsp; Q=UI sinφ &nbsp; ; &nbsp; S=UI</div><div class="formula">S²=P²+Q² &nbsp; ; &nbsp; cosφ=P/S</div>`],
+["Compensation","Pour réduire la puissance réactive inductive, on peut ajouter une capacité en parallèle. La puissance capacitive doit compenser l’écart entre Q initiale et Q visée. La capacité dépend de la fréquence et de la tension."],
+["Attention","Un facteur de puissance faible augmente le courant nécessaire pour fournir la même puissance active, donc augmente les pertes Joule et les chutes de tension."]
+],exercises:[{q:"Charge monophasée : U=230 V, I=5 A, cosφ=0,8. Calculer P et S.",a:"S=UI=230×5=1150 VA. P=1150×0,8=920 W. |sinφ|=0,6 donc |Q|=690 var ; le signe dépend du caractère inductif ou capacitif."}]},
+{year:"BUT 3",id:"threephase",title:"Systèmes triphasés équilibrés",desc:"Couplages étoile/triangle, tensions et puissances.",tags:"triphasé étoile triangle ligne phase puissance",sections:[
+["Repères","Un système triphasé équilibré comporte trois tensions sinusoïdales de même fréquence et même amplitude, décalées de 120°."],
+["Étoile et triangle","En étoile : Uligne=√3 Uphase et Iligne=Iphase. En triangle : Uligne=Uphase et Iligne=√3 Iphase pour un système équilibré."],
+["Puissances",`<div class="formula">P=√3 Uligne Iligne cosφ</div><div class="formula">Q=√3 Uligne Iligne sinφ</div><div class="formula">S=√3 Uligne Iligne</div>`],
+["Exemple","Réseau 400 V, courant de ligne 10 A, cosφ=0,85 : P=√3×400×10×0,85≈5,89 kW."]
+],exercises:[{q:"Un récepteur triphasé absorbe 8 A sous 400 V, cosφ=0,9. Calculer P.",a:"P=√3×400×8×0,9≈4,99 kW."}]},
+{year:"BUT 3",id:"transients",title:"Régimes transitoires RC et RL",desc:"Constante de temps, réponse exponentielle et conditions initiales.",tags:"transitoire rc rl tau exponentielle condensateur bobine",sections:[
+["Idée générale","Après une commutation, les tensions et courants évoluent avant d’atteindre le régime permanent. Dans un circuit du premier ordre, la réponse est exponentielle."],
+["Constantes de temps",`Circuit RC : <div class="formula">τ=Req·C</div>Circuit RL : <div class="formula">τ=L/Req</div>Req est la résistance équivalente vue par le composant de stockage, sources indépendantes annulées.`],
+["Réponse universelle",`Pour une variable x : <div class="formula">x(t)=x(∞)+[x(0⁺)−x(∞)]e^(−t/τ)</div>À t=τ, environ 63,2 % de la variation est réalisée ; vers 5τ, on est pratiquement au régime permanent.`],
+["Continuités","La tension d’un condensateur idéal ne saute pas sans courant impulsionnel : uC(0⁺)=uC(0⁻). Le courant d’une inductance idéale ne saute pas sans tension impulsionnelle : iL(0⁺)=iL(0⁻)."],
+["Exemple","RC avec τ=2 ms, uC(0)=0 V et uC(∞)=10 V : à t=2 ms, uC=10(1−e⁻¹)≈6,32 V ; à 10 ms (=5τ), uC≈9,93 V."]
+],exercises:[{q:"Un RC a Req=10 kΩ et C=100 µF. Calculer τ.",a:"τ=RC=10 000×100×10⁻⁶=1 s."},{q:"u(0)=4 V, u(∞)=12 V, τ=3 s. Calculer u(3 s).",a:"u(τ)=12+(4−12)e⁻¹≈12−2,943=9,06 V."}]}
+];
+let activeYear="all",activeView="fiches",query="",opened=null;
+const content=document.getElementById("content");
+function matches(c){const q=query.trim().toLowerCase();return (!q||(c.title+" "+c.desc+" "+c.tags+" "+c.sections.map(x=>x.join(" ")).join(" ")+" "+c.exercises.map(x=>x.q+" "+x.a).join(" ")).toLowerCase().includes(q))&&(activeYear==="all"||c.year===activeYear)}
+
+function schematic(id, idx=0){
+ const common=(inner,caption)=>`<div class="diagram"><svg viewBox="0 0 520 190" role="img" aria-label="${caption}">${inner}</svg><small>${caption}</small></div>`;
+ const w='<path class="wire" d="';
+ if(id==="kirchhoff") return common(`<path class="wire" d="M65 92H245 M245 92H455 M245 92V155H455 M65 92V35H455V92"/><circle cx="245" cy="92" r="4" fill="#172554"/><path class="wire" d="M145 92v-10m-6 0h12m-6 10v10"/><rect class="comp" x="330" y="77" width="62" height="30" rx="3"/><text class="lbl" x="361" y="96" text-anchor="middle">R₂</text><rect class="comp" x="330" y="140" width="62" height="30" rx="3"/><text class="lbl" x="361" y="159" text-anchor="middle">R₃</text><path d="M205 82l14 10-14 10" stroke="#2563eb" stroke-width="2" fill="none"/><path d="M430 82l14 10-14 10" stroke="#2563eb" stroke-width="2" fill="none"/><text class="lbl" x="185" y="72">I₁</text><text class="lbl" x="415" y="72">I₂</text><text class="lbl" x="260" y="145">I₃</text><text class="lbl" x="255" y="80">N</text>`,`Circuit de nœud : I₁ entrant, I₂ et I₃ sortants ; I₁ = I₂ + I₃.`);
+ if(id==="thevenin") return common(`<path class="wire" d="M70 55H180 M280 55H450V145H70V55 M180 55H195 M265 55H280"/><circle cx="230" cy="55" r="35" fill="#fff" stroke="#2563eb" stroke-width="2.5"/><text class="lbl" x="230" y="51" text-anchor="middle">Vth</text><text class="smalllbl" x="230" y="67" text-anchor="middle">+ −</text><rect class="comp" x="320" y="40" width="65" height="30"/><text class="lbl" x="352" y="59" text-anchor="middle">Rth</text><rect class="comp" x="320" y="130" width="65" height="30"/><text class="lbl" x="352" y="149" text-anchor="middle">RL</text><path class="wire" d="M352 70V130 M352 160V175H70V145"/><text class="lbl" x="455" y="52">A</text><text class="lbl" x="455" y="160">B</text><text class="smalllbl" x="405" y="100">I →</text>`,`Modèle de Thévenin : source Vth en série avec Rth et charge RL entre A et B.`);
+ if(id==="millman") return common(`<path class="wire" d="M70 45H450 M70 155H450 M120 45V65 M120 135V155 M260 45V65 M260 135V155 M400 45V65 M400 135V155"/><circle cx="120" cy="100" r="30" fill="#fff" stroke="#2563eb" stroke-width="2.5"/><text class="lbl" x="120" y="96" text-anchor="middle">E₁</text><text class="smalllbl" x="120" y="111" text-anchor="middle">+ en haut</text><rect class="comp" x="95" y="65" width="50" height="18"/><text class="smalllbl" x="120" y="59" text-anchor="middle">R₁</text><circle cx="260" cy="100" r="30" fill="#fff" stroke="#2563eb" stroke-width="2.5"/><text class="lbl" x="260" y="104" text-anchor="middle">E₂</text><rect class="comp" x="235" y="65" width="50" height="18"/><text class="smalllbl" x="260" y="59" text-anchor="middle">R₂</text><rect class="comp" x="375" y="80" width="50" height="40"/><text class="lbl" x="400" y="104" text-anchor="middle">R₃</text><text class="lbl" x="455" y="38">V</text><text class="smalllbl" x="260" y="180" text-anchor="middle">Référence commune en bas</text>`,`Branches en parallèle entre le nœud V et la référence ; chaque branche a sa source et sa résistance.`);
+ if(id==="kennelly") return common(`<path class="wire" d="M110 140L260 35L410 140Z M110 140H410 M260 35V140"/><circle cx="110" cy="140" r="5" fill="#172554"/><circle cx="260" cy="35" r="5" fill="#172554"/><circle cx="410" cy="140" r="5" fill="#172554"/><rect class="comp" x="170" y="72" width="66" height="27" rx="3"/><text class="lbl" x="203" y="90" text-anchor="middle">Rca</text><rect class="comp" x="300" y="72" width="66" height="27" rx="3"/><text class="lbl" x="333" y="90" text-anchor="middle">Rab</text><rect class="comp" x="227" y="124" width="66" height="27" rx="3"/><text class="lbl" x="260" y="142" text-anchor="middle">Rbc</text><text class="lbl" x="83" y="160">A</text><text class="lbl" x="260" y="22">C</text><text class="lbl" x="417" y="160">B</text>`,`Triangle Δ : résistances Rab, Rbc et Rca entre les trois bornes A, B et C.`);
+ if(id==="complex") return common(`<path class="wire" d="M45 145H475 M75 155V25"/><path d="M75 145L400 45" stroke="#2563eb" stroke-width="3" fill="none"/><path d="M390 43l10 2-5 10" stroke="#2563eb" stroke-width="2" fill="none"/><path d="M180 145A105 105 0 0 0 174 105" stroke="#64748b" stroke-width="1.5" fill="none"/><text class="lbl" x="405" y="39">U (phasor)</text><text class="lbl" x="415" y="165">Re</text><text class="lbl" x="45" y="25">Im</text><text class="smalllbl" x="182" y="128">φ</text><text class="smalllbl" x="90" y="175">Référence de phase sur l’axe réel</text>`,`Diagramme de Fresnel : vecteur complexe U d’angle φ par rapport à l’axe réel.`);
+ if(id==="puissance") return common(`<circle cx="260" cy="95" r="48" fill="#eef3ff" stroke="#2563eb" stroke-width="2.5"/><text class="lbl" x="260" y="88" text-anchor="middle">Charge</text><text class="smalllbl" x="260" y="105" text-anchor="middle">monophasée</text><path class="wire" d="M35 95H212 M308 95H485"/><path d="M110 85l14 10-14 10" fill="none" stroke="#2563eb" stroke-width="2"/><text class="lbl" x="85" y="75">I</text><text class="lbl" x="160" y="80">U</text><text class="smalllbl" x="260" y="165" text-anchor="middle">P = UI cosφ · Q = UI sinφ · S = UI</text>`,`Charge monophasée : courant I, tension U et déphasage φ définissent P, Q et S.`);
+ if(id==="threephase") return common(`<path class="wire" d="M55 35H465 M55 95H465 M55 155H465"/><text class="lbl" x="20" y="39">L1</text><text class="lbl" x="20" y="99">L2</text><text class="lbl" x="20" y="159">L3</text><path class="wire" d="M170 35L300 95L170 155Z"/><circle cx="170" cy="35" r="4" fill="#172554"/><circle cx="300" cy="95" r="4" fill="#172554"/><circle cx="170" cy="155" r="4" fill="#172554"/><rect class="comp" x="210" y="46" width="60" height="24"/><text class="lbl" x="240" y="62" text-anchor="middle">Z₁₂</text><rect class="comp" x="210" y="120" width="60" height="24"/><text class="lbl" x="240" y="136" text-anchor="middle">Z₃₁</text><text class="smalllbl" x="345" y="86">Z₂₃</text><text class="smalllbl" x="345" y="105">triangle Δ</text>`,`Récepteur triphasé en triangle : une impédance entre chaque paire de phases.`);
+ if(id==="transients") return common(`<path class="wire" d="M55 45H465V145H55Z"/><circle cx="105" cy="95" r="28" fill="#fff" stroke="#2563eb" stroke-width="2.5"/><text class="lbl" x="105" y="91" text-anchor="middle">E</text><text class="smalllbl" x="105" y="106" text-anchor="middle">source</text><rect class="comp" x="205" y="32" width="70" height="26"/><text class="lbl" x="240" y="50" text-anchor="middle">R</text><path class="wire" d="M310 45V70 M295 70H325 M295 78H325 M310 78V145"/><text class="lbl" x="340" y="80">C</text><path class="wire" d="M165 95H205 M275 45H310"/><text class="smalllbl" x="360" y="120">uC(t)</text><text class="smalllbl" x="260" y="178" text-anchor="middle">τ = R C (circuit RC série, source idéale)</text>`,`Circuit RC série de charge : source idéale E, résistance R et condensateur C.`);
+ return common(`<text class="lbl" x="260" y="95" text-anchor="middle">Schéma à définir</text>`,`Schéma conceptuel.`);
+}
+
+function render(){
+ document.querySelectorAll("[data-year]").forEach(b=>b.classList.toggle("active",b.dataset.year===activeYear));
+ document.querySelectorAll("[data-view]").forEach(b=>b.classList.toggle("active",b.dataset.view===activeView));
+ const list=chapters.filter(matches);
+ if(opened){const c=chapters.find(x=>x.id===opened);if(c){renderChapter(c);return;}opened=null}
+ if(activeView==="fiches"){
+  content.innerHTML=`<h2 class="section-title">${query?"Résultats de recherche":"Chapitres de révision"}</h2><div class="grid">${list.map(c=>`<article class="card"><span class="tag">${c.year}</span><h3>${c.title}</h3><p>${c.desc}</p><button class="btn" onclick="openChapter('${c.id}')">Ouvrir la fiche</button></article>`).join("")||'<div class="empty">Aucun résultat. Essaie un autre terme.</div>'}</div>`;
+ }else{
+  const ex=list.flatMap(c=>c.exercises.map((e,i)=>({c,e,i})));
+  content.innerHTML=`<h2 class="section-title">${query?"Exercices trouvés":"Exercices corrigés"}</h2>${ex.map(({c,e,i})=>`<article class="exercise"><span class="tag">${c.year} · ${c.title}</span><p><b>Énoncé ${i+1}.</b> ${e.q}</p>${schematic(c.id,i)}<button class="btn secondary" onclick="toggleSolution(this)">Afficher la correction</button><div class="solution"><b>Correction détaillée</b><p>${e.a}</p></div></article>`).join("")||'<div class="empty">Aucun exercice trouvé.</div>'}`;
+ }
+}
+function openChapter(id){opened=id;activeView="fiches";render()}
+function renderChapter(c){
+ content.innerHTML=`<button class="btn secondary" onclick="opened=null;render()">← Retour aux chapitres</button><article class="panel"><span class="tag">${c.year}</span><h2>${c.title}</h2><p class="muted">${c.desc}</p><h3>Fiche de cours</h3>${c.sections.map(([h,t])=>`<section><h3>${h}</h3><p>${t}</p></section>`).join("")}<h3>Schéma de principe</h3>${schematic(c.id)}<div class="note"><b>Réflexe d’ingénieur :</b> annoncer les références, garder les unités, contrôler les ordres de grandeur et vérifier les équations par un bilan indépendant.</div><h3>Exercices associés</h3>${c.exercises.map((e,i)=>`<div class="exercise"><p><b>Exercice ${i+1}.</b> ${e.q}</p>${schematic(c.id,i)}<button class="btn secondary" onclick="toggleSolution(this)">Afficher la correction</button><div class="solution"><b>Correction</b><p>${e.a}</p></div></div>`).join("")}</article>`;
+}
+function toggleSolution(btn){const s=btn.nextElementSibling;s.classList.toggle("show");btn.textContent=s.classList.contains("show")?"Masquer la correction":"Afficher la correction"}
+document.getElementById("search").addEventListener("input",e=>{query=e.target.value;opened=null;render()});
+document.getElementById("clear").addEventListener("click",()=>{document.getElementById("search").value="";query="";render()});
+document.querySelectorAll("[data-year]").forEach(b=>b.addEventListener("click",()=>{activeYear=b.dataset.year;opened=null;render()}));
+document.querySelectorAll("[data-view]").forEach(b=>b.addEventListener("click",()=>{activeView=b.dataset.view;opened=null;render()}));
+document.getElementById("home").addEventListener("click",()=>{opened=null;query="";document.getElementById("search").value="";activeYear="all";activeView="fiches";render();window.scrollTo({top:0,behavior:"smooth"})});
+render();
+</script>
+</body></html>
